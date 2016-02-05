@@ -1,8 +1,10 @@
 - tests
+  - three rows
+  - maxRowLen
 - TODOs
 
 - handle strings longer than maxRowLen
-- docstrings
+- jsdoc
 - CI
 - readme
 - npm

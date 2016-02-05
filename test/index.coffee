@@ -1,9 +1,9 @@
 'use strict'
 
-describe 'columnize-array', ->
+describe 'columnize-array :', ->
 
-  describe 'handle conf param', ->
+  describe 'handle conf :', ->
     reqDir module, './conf'
 
-  describe 'build columnized arrays', ->
+  describe 'build columnized arrays :', ->
     reqDir module, './rows'

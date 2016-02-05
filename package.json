@@ -4,7 +4,13 @@
   "description": "columnize an array of text elements for printing",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "cr": "npm run cover -s && npm run report -s",
+    "cover": "istanbul cover node_modules/mocha/bin/_mocha",
+    "dev": "./cli.js",
+    "md": "pm2 start pen",
+    "report": "istanbul report text",
+    "test": "mocha",
+    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly"
   },
   "repository": {
     "type": "git",

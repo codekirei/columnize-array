@@ -1,12 +1,12 @@
 'use strict'
 
-describe 'minGap', ->
+describe 'sort === false :', ->
   ar = ['foo', 'bar', 'baz']
 
-  res = -> columnize ar, minGap: 1
+  res = -> columnize ar, sort: false
 
   it 'strs', ->
-    expected = [ 'bar baz foo' ]
+    expected = [ 'foo  bar  baz' ]
     actual = res().strs
     assert.deepEqual actual, expected
 
