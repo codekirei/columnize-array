@@ -4,94 +4,105 @@
 //----------------------------------------------------------
 const merge = require('lodash.merge')
 const freeze = require('deep-freeze')
+// const Columns = require('./lib/columns')
 
 // jsdoc
 function columnizeArray(ar, userConf) {
-
-  // merge defaults and userConf into conf
-  //----------------------------------------------------------
   const conf = freeze(merge(
-    { gapChar: ' '
+    { gap:
+      { len: 2
+      , ch: ' '
+      }
     , maxRowLen: 80
-    , minGap: 2
     , sort: true
     }
-    , userConf
+  , userConf
   ))
 
-  // generate props
-  //----------------------------------------------------------
-  const props = freeze(
-    { ar: conf.sort ? ar.sort() : ar
+  const columns = new Columns(ar, conf)
+
+  return {
+    strs: columns.state.strs
+    , indices: columns.state.indices
+  }
+}
+
+function Columns(ar, conf) {
+  this.props = freeze(merge(
+    {}
+  , conf
+  , { ar: conf.sort ? ar.sort() : ar
     , arLen: ar.length
-    })
-
-  // loop to build arrays of strs and indices
-  //----------------------------------------------------------
-  let rows = 1
-  let i, strs, indices, widths, cols
-
-  function fillRows(rowCt) {
-    while (rowCt--) {
-      indices.push([])
-      strs.push('')
+    , initState:
+      { i: 0
+      , strs: []
+      , indices: []
+      , widths: []
+      }
     }
-  }
+  ))
 
-  function fillCols(colCt) {
-    while (colCt--) widths.push(0)
-  }
+  this.state = {}
+  this.cleanState()
 
-  function reset() {
-    i = 0
-    cols = Math.ceil(props.arLen / rows)
-    indices = []
-    strs = []
-    widths = []
-    fillRows(rows)
-    fillCols(cols)
-  }
+  this.solve()
+}
 
-  reset()
+Columns.prototype.colsMap = function() {
+  return new Map(
+    [ [ this.state.widths, () => 0 ]
+    ])
+}
 
+Columns.prototype.rowsMap = function() {
+  return new Map(
+    [ [ this.state.indices, () => [] ]
+    , [ this.state.strs, () => '' ]
+    ])
+}
+
+Columns.prototype.cols = function(rows) {
+  return Math.ceil(this.props.arLen / rows)
+}
+
+Columns.prototype.fill = function(map, ct) {
+  while (ct--) map.forEach((v, k) => k.push(v()))
+}
+
+Columns.prototype.cleanState = function() {
+  const rows = this.state.rows || 0
+  this.state = merge({}, this.props.initState)
+  this.state.rows = rows + 1
+  this.fill(this.colsMap(), this.cols(this.state.rows))
+  this.fill(this.rowsMap(), this.state.rows)
+}
+
+Columns.prototype.solve = function() {
   while (true) {
-    const row = i % rows
-    const col = Math.floor(i / rows)
-    const str = props.ar[i]
+    const row = this.state.i % this.state.rows
+    const col = Math.floor(this.state.i / this.state.rows)
+    const str = this.props.ar[this.state.i]
     const len = str.length
 
-    if (row === 0 && i !== 0) {
+    if (row === 0 && this.state.i !== 0) {
       const prevCol = col - 1
-      const reqLen = widths[prevCol] + conf.minGap
-      indices.forEach((indexAr, _i) => {
-        const diff = reqLen - props.ar[indexAr[prevCol]].length
-        strs[_i] += conf.gapChar.repeat(diff)
+      const reqLen = this.state.widths[prevCol] + this.props.gap.len
+      this.state.indices.forEach((ar, _i) => {
+        const diff = reqLen - this.props.ar[ar[prevCol]].length
+        this.state.strs[_i] += this.props.gap.ch.repeat(diff)
       })
     }
 
-    strs[row] += str
+    this.state.strs[row] += str
 
-    function goOn() {
-      if (len > widths[col]) widths[col] = len
-      indices[row].push(i)
-      i++
-    }
+    if (this.state.strs[row].length <= this.props.maxRowLen) {
+      if (len > this.state.widths[col]) this.state.widths[col] = len
+      this.state.indices[row].push(this.state.i)
+      this.state.i++
+    } else this.cleanState()
 
-    function bail() {
-      rows++
-      reset()
-    }
-
-    strs[row].length <= conf.maxRowLen
-      ? goOn()
-      : bail()
-
-    if (i === props.arLen) break
+    if (this.state.i === this.props.arLen) break
   }
-
-  // return generated arrays
-  //----------------------------------------------------------
-  return {strs, indices}
 }
 
 // export
