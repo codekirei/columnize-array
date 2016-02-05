@@ -2,8 +2,8 @@
 
 describe 'columnize-array', ->
 
-  describe 'handle custom opts', ->
-    reqDir module, './opts'
+  describe 'handle conf param', ->
+    reqDir module, './conf'
 
-  describe 'build columnized rows', ->
+  describe 'build columnized arrays', ->
     reqDir module, './rows'

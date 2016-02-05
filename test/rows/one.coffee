@@ -1,12 +1,16 @@
 'use strict'
 
-it 'one row', ->
-  strs =
+describe 'one row', ->
+  ar =
     [ 'foo'
     , 'bar'
     , 'baz'
     , 'qux'
     ]
-  expected = 'bar  baz  foo  qux'
-  actual = columnize(strs)
-  assert.equal actual, expected
+
+  it 'strs', ->
+    expected = 'bar  baz  foo  qux'
+    actual = columnize(ar).strs
+    assert.equal actual, expected
+
+  it.skip 'indices'
