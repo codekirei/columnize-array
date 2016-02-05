@@ -1,0 +1,1 @@
+- handle strings longer than maxRowLen

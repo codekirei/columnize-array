@@ -22,43 +22,71 @@ function columnizeArray(ar, userConf) {
   // generate props
   //----------------------------------------------------------
   const props = freeze(
-    { maxRowLen: conf.maxRowLen
-    , gap: conf.gapChar.repeat(conf.minGap)
-    , ar: conf.sort ? ar.sort() : ar
+    { ar: conf.sort ? ar.sort() : ar
     , arLen: ar.length
     })
 
   // loop to build arrays of strs and indices
   //----------------------------------------------------------
-  let rowCt = 1
-  let i, strs, indices
+  let rows = 1
+  let i, strs, indices, widths, cols
+
+  function fillRows(rowCt) {
+    while (rowCt--) {
+      indices.push([])
+      strs.push('')
+    }
+  }
+
+  function fillCols(colCt) {
+    while (colCt--) widths.push(0)
+  }
 
   function reset() {
     i = 0
-    strs = []
+    cols = Math.ceil(props.arLen / rows)
     indices = []
+    strs = []
+    widths = []
+    fillRows(rows)
+    fillCols(cols)
   }
 
   reset()
 
-  while (rowCt) {
-    const row = i % rowCt
+  while (true) {
+    const row = i % rows
+    const col = Math.floor(i / rows)
+    const str = props.ar[i]
+    const len = str.length
 
-    typeof strs[row] === 'undefined'
-      ? strs[row] = props.ar[i]
-      : strs[row] += props.gap + props.ar[i]
+    if (row === 0 && i !== 0) {
+      const prevCol = col - 1
+      const reqLen = widths[prevCol] + conf.minGap
+      indices.forEach((indexAr, _i) => {
+        const diff = reqLen - props.ar[indexAr[prevCol]].length
+        strs[_i] += conf.gapChar.repeat(diff)
+      })
+    }
 
-    if (strs[row].length <= props.maxRowLen) {
-      typeof indices[row] === 'undefined'
-        ? indices[row] = [i]
-        : indices[row].push(i)
+    strs[row] += str
+
+    function goOn() {
+      if (len > widths[col]) widths[col] = len
+      indices[row].push(i)
       i++
-    } else {
-      rowCt++
+    }
+
+    function bail() {
+      rows++
       reset()
     }
 
-    if (i === props.arLen) rowCt = 0
+    strs[row].length <= conf.maxRowLen
+      ? goOn()
+      : bail()
+
+    if (i === props.arLen) break
   }
 
   // return generated arrays
