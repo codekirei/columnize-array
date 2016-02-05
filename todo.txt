@@ -1,9 +1,12 @@
-- clean method -> init, take rows as param
-- handle strings longer than maxRowLen
-- examine use of merge vs Object.assign throughout code
-- TODOs
-- docstrings
 - tests
+- TODOs
+- examine use of merge vs Object.assign throughout code
+
+- handle strings longer than maxRowLen
+- docstrings
 - CI
 - readme
 - npm
+
+- LATER
+  - consider implementing immutable.js / baobab
