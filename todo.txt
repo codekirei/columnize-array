@@ -1,6 +1,5 @@
 - tests
 - TODOs
-- examine use of merge vs Object.assign throughout code
 
 - handle strings longer than maxRowLen
 - docstrings
