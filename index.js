@@ -7,19 +7,27 @@ const freeze = require('deep-freeze')
 const Columns = require('./lib/columns')
 
 // jsdoc
-function columnizeArray(ar, userConf) {
-  const conf = freeze(merge(
+function columnizeArray(ar, opts) {
+  const props = freeze(merge(
     { gap:
       { len: 2
       , ch: ' '
       }
     , maxRowLen: 80
-    , sort: true
     }
-  , userConf
+  , opts
+  , { ar: opts && opts.sort === false ? ar : ar.sort()
+    , arLen: ar.length
+    , initState:
+      { i: 0
+      , strs: []
+      , indices: []
+      , widths: []
+      }
+    }
   ))
 
-  const columns = new Columns(ar, conf)
+  const columns = new Columns(props)
   return { strs: columns.state.strs
          , indices: columns.state.indices
          }
