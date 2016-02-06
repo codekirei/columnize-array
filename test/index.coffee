@@ -1,9 +1,7 @@
 'use strict'
 
-describe 'columnize-array :', ->
+describe 'handle opts :', ->
+  reqDir module, './opts'
 
-  describe 'handle conf :', ->
-    reqDir module, './conf'
-
-  describe 'build columnized arrays :', ->
-    reqDir module, './rows'
+describe 'solve state :', ->
+  reqDir module, './rows'
