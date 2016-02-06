@@ -1,4 +1,4 @@
-- handle strings longer than maxRowLen
+- custom sort fn (e.g. ext then abc)
 - jsdoc
 - CI
 - readme

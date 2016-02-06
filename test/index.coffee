@@ -5,3 +5,6 @@ describe 'handle opts :', ->
 
 describe 'solve state :', ->
   reqDir module, './rows'
+
+describe 'edge cases :', ->
+  reqDir module, './edge-cases'
