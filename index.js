@@ -6,7 +6,13 @@ const merge = require('lodash.merge')
 const freeze = require('deep-freeze')
 const Columns = require('./lib/columns')
 
-// jsdoc
+/**
+  Columnize an array of strings.
+
+  @param {String[]} array - array of strs to columnize
+  @param {Object} opts - configurable options
+  @returns {Object} strs: array of strings; indices: array of index arrays
+ */
 function columnizeArray(array, opts) {
 
   // conditionally sort array
