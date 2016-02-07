@@ -7,7 +7,19 @@ const freeze = require('deep-freeze')
 const Columns = require('./lib/columns')
 
 // jsdoc
-function columnizeArray(ar, opts) {
+function columnizeArray(array, opts) {
+
+  // conditionally sort array
+  //----------------------------------------------------------
+  const ar =
+    opts && typeof opts.sort !== 'undefined'
+      ? opts.sort
+        ? opts.sort(array)
+        : array
+      : array.sort()
+
+  // build and freeze props
+  //----------------------------------------------------------
   const props = freeze(merge(
     { gap:
       { len: 2
@@ -16,7 +28,7 @@ function columnizeArray(ar, opts) {
     , maxRowLen: 80
     }
   , opts
-  , { ar: opts && opts.sort === false ? ar : ar.sort()
+  , { ar
     , arLen: ar.length
     , initState:
       { i: 0
@@ -27,6 +39,8 @@ function columnizeArray(ar, opts) {
     }
   ))
 
+  // columnize and return
+  //----------------------------------------------------------
   const columns = new Columns(props)
   return { strs: columns.state.strs
          , indices: columns.state.indices

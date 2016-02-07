@@ -1,8 +1,4 @@
-- custom sort fn (e.g. ext then abc)
 - jsdoc
 - CI
 - readme
 - npm
-
-- LATER
-  - consider implementing immutable.js / baobab
