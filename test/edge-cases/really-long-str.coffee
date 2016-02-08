@@ -11,13 +11,7 @@ describe 'really long str :', ->
   res = -> columnize ar
 
   it 'strs', ->
-    expected =
-      [ 'bar'
-      , 'baz'
-      , 'foo'
-      , 'foobarbazqux'.repeat(7)
-      , 'qux'
-      ]
+    expected = ar
     actual = res().strs
     assert.deepEqual actual, expected
 

@@ -4,13 +4,13 @@ path = require 'path'
 
 describe 'sort :', ->
 
-  describe 'false :', ->
+  describe 'true :', ->
 
     ar = ['foo', 'bar', 'baz']
-    res = -> columnize ar, sort: false
+    res = -> columnize ar, sort: true
 
     it 'strs', ->
-      expected = [ 'foo  bar  baz' ]
+      expected = [ 'bar  baz  foo' ]
       actual = res().strs
       assert.deepEqual actual, expected
 

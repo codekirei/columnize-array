@@ -14,9 +14,9 @@ describe 'maxRowLen :', ->
 
   it 'strs', ->
     expected =
-      [ 'bar.js   baz.js   foo.js   qux.js'
-      , 'bar.md   baz.md   foo.md   qux.md'
-      , 'bar.txt  baz.txt  foo.txt  qux.txt'
+      [ 'foo.txt  bar.txt  baz.txt  qux.txt'
+      , 'foo.md   bar.md   baz.md   qux.md'
+      , 'foo.js   bar.js   baz.js   qux.js'
       ]
     actual = res().strs
     assert.deepEqual actual, expected

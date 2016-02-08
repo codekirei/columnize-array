@@ -5,7 +5,7 @@ describe 'one row :', ->
   res = -> columnize ar
 
   it 'strs', ->
-    expected = ['bar  baz  foo  qux']
+    expected = ['foo  bar  baz  qux']
     actual = res().strs
     assert.deepEqual actual, expected
 

@@ -13,8 +13,8 @@ describe 'two rows :', ->
 
   it 'strs', ->
     expected =
-      [ 'bar.js  bar.txt  baz.md   foo.js  foo.txt  qux.md'
-      , 'bar.md  baz.js   baz.txt  foo.md  qux.js   qux.txt'
+      [ 'foo.txt  foo.js   bar.md  baz.txt  baz.js   qux.md'
+      , 'foo.md   bar.txt  bar.js  baz.md   qux.txt  qux.js'
       ]
     actual = res().strs
     assert.deepEqual actual, expected

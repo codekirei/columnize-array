@@ -18,11 +18,11 @@ function columnizeArray(array, opts) {
   // conditionally sort array
   //----------------------------------------------------------
   const ar =
-    opts && typeof opts.sort !== 'undefined'
-      ? opts.sort
-        ? opts.sort(array)
-        : array
-      : array.sort()
+    opts && opts.sort
+      ? typeof opts.sort === 'boolean'
+        ? array.sort()
+        : opts.sort(array)
+      : array
 
   // build and freeze props
   //----------------------------------------------------------

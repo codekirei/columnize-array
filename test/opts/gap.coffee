@@ -7,7 +7,7 @@ describe 'gap :', ->
     res = -> columnize ar, gap: len: 1
 
     it 'strs', ->
-      expected = [ 'bar baz foo' ]
+      expected = ['foo bar baz']
       actual = res().strs
       assert.deepEqual actual, expected
 
@@ -20,7 +20,7 @@ describe 'gap :', ->
     res = -> columnize ar, gap: ch: '.'
 
     it 'strs', ->
-      expected = [ 'bar..baz..foo' ]
+      expected = [ 'foo..bar..baz' ]
       actual = res().strs
       assert.deepEqual actual, expected
 
