@@ -6,7 +6,6 @@
   "scripts": {
     "cr": "npm run cover -s && npm run report -s",
     "cover": "istanbul cover node_modules/mocha/bin/_mocha",
-    "dev": "./cli.js",
     "md": "pm2 start pen",
     "report": "istanbul report text",
     "test": "mocha",
